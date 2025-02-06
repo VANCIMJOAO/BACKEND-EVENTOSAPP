@@ -1,20 +1,23 @@
-# Usando imagem Node.js como base
+# Usar uma imagem oficial do Node.js
 FROM node:16
 
-# Criando o diretório de trabalho
+# Criar o diretório de trabalho no container
 WORKDIR /app
 
-# Copiando arquivos de dependências
+# Copiar arquivos de dependências primeiro (para cache)
 COPY package*.json ./
 
-# Instalando dependências com a flag --legacy-peer-deps
+# Instalar dependências
 RUN npm install --legacy-peer-deps
 
-# Copiando o restante do código
+# Copiar o restante do código para o container
 COPY . .
 
-# Expondo a porta do servidor
+# Compilar o código TypeScript para JavaScript
+RUN npm run build
+
+# Expor a porta do servidor
 EXPOSE 3000
 
-# Comando para iniciar a aplicação
+# Comando para rodar a aplicação
 CMD ["npm", "start"]
