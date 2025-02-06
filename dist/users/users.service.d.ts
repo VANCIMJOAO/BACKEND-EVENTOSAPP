@@ -1,0 +1,31 @@
+import { Repository } from 'typeorm';
+import { User } from './user.entity';
+import { Event as EventEntity } from '../events/event.entity';
+import { UserRole } from './dto/user-role.enum';
+import { RegisterDto } from '../auth/dto/register.dto';
+import { UserProfileDto } from './dto/user-profile.dto';
+import { FriendRequestsService } from './friend-requests/friend-requests.service';
+import { NotificationsService } from '../notifications/notifications.service';
+export declare class UsersService {
+    private usersRepository;
+    private eventsRepository;
+    private friendRequestsService;
+    private notificationsService;
+    private readonly logger;
+    constructor(usersRepository: Repository<User>, eventsRepository: Repository<EventEntity>, friendRequestsService: FriendRequestsService, notificationsService: NotificationsService);
+    findOneByEmail(email: string): Promise<User | undefined>;
+    findOneEntityById(id: number): Promise<User | null>;
+    findOneById(id: number, requestingUserId?: number): Promise<UserProfileDto>;
+    create(registerDto: RegisterDto): Promise<User>;
+    update(id: number, updateData: Partial<User>): Promise<UserProfileDto | null>;
+    toggleFavoriteEvent(userId: number, eventId: number): Promise<UserProfileDto | null>;
+    assignRole(id: number, role: UserRole): Promise<UserProfileDto | null>;
+    getFavorites(userId: number): Promise<EventEntity[]>;
+    isEventFavorited(userId: number, eventId: number): Promise<boolean>;
+    addFriend(userId: number, friendId: number): Promise<UserProfileDto>;
+    removeFriend(userId: number, friendId: number): Promise<UserProfileDto>;
+    listFriends(userId: number): Promise<User[]>;
+    searchUsersByNickname(term: string): Promise<User[]>;
+    getGoingEvents(userId: number): Promise<EventEntity[]>;
+    updateExpoPushToken(userId: number, token: string): Promise<UserProfileDto>;
+}
