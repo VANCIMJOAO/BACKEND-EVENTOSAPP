@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # Instalar dependências
 RUN npm install --legacy-peer-deps
+RUN cat /root/.npm/_logs/2025-02-06T22_58_47_753Z-debug-0.log
 
 # Copiar o arquivo tsconfig.json explicitamente
 COPY tsconfig.json .
@@ -27,3 +28,5 @@ EXPOSE 3000
 
 # Comando para rodar a aplicação
 CMD ["npm", "start"]
+
+
