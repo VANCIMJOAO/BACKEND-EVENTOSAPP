@@ -16,6 +16,9 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "rootDir": "./src" // Adiciona a raiz do projeto
+  },
+  "include": ["src/**/*"], // Inclui os arquivos dentro do diretório src
+  "exclude": ["node_modules", "dist"] // Exclui as pastas não necessárias
 }
