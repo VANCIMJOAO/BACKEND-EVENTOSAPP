@@ -4,7 +4,7 @@ FROM node:18
 # Criar o diretório de trabalho no container
 WORKDIR /app
 
-# Copiar os arquivos de dependências primeiro
+# Copiar apenas os arquivos de dependências para o cache
 COPY package*.json ./
 
 # Instalar dependências com suporte para conflitos
@@ -16,8 +16,8 @@ COPY tsconfig.json ./tsconfig.json
 # Copiar o restante do código para o container
 COPY . .
 
-# Verificar se o tsconfig.json foi copiado
-RUN ls -la ./tsconfig.json
+# Verificar se o tsconfig.json está no container
+RUN ls -la /app/tsconfig.json
 
 # Compilar o código TypeScript para JavaScript
 RUN npm run build
