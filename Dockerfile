@@ -1,17 +1,23 @@
+# Use a imagem oficial do Node 18
 FROM node:18
 
+# Cria a pasta de trabalho no contêiner
 WORKDIR /app
 
-# Copie tudo de uma vez (ou apenas o que for necessário) 
-COPY . . 
+# Copia apenas os arquivos de dependências primeiro (para cache)
+COPY package*.json ./
 
-RUN ls -la  # Apenas para debug, opcional
-
-# Instale dependências 
+# Instala dependências (incluindo devDependencies, pois o Nest CLI está lá)
 RUN npm install --legacy-peer-deps
 
-# Compile o projeto
+# Copia o restante do projeto (src, tsconfig.json, etc.)
+COPY . .
+
+# Compila o projeto (gera /app/dist)
 RUN npm run build
 
+# Expõe a porta da aplicação (ajuste se a sua porta for diferente)
 EXPOSE 3000
+
+# Inicia a aplicação
 CMD ["npm", "start"]
